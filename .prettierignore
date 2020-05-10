@@ -1,0 +1,7 @@
+dist
+node_modules
+.git*
+.prettierignore
+yarn*
+LICENSE
+.cache
