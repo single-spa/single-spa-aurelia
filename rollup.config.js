@@ -1,41 +1,25 @@
 import resolve from '@rollup/plugin-node-resolve';
-import typescript from '@rollup/plugin-typescript';
+import typescript from 'rollup-plugin-typescript2';
 
-const umdConfig = {
+import packageJson from './package.json';
+
+export default {
   input: 'src/index.ts',
-  output: {
-    dir: 'dist/umd',
-    format: 'umd',
-    sourcemap: true,
-    name: 'singleSpaAurelia',
-  },
-  external: ['aurelia-bootstrapper'],
+  output: [
+    {
+      file: packageJson.main,
+      format: 'umd',
+      sourcemap: true,
+      name: 'singleSpaAurelia',
+    },
+    {
+      file: packageJson.module,
+      format: 'esm',
+      sourcemap: true,
+    },
+  ],
   plugins: [
     resolve(),
-    typescript({
-      rootDir: 'src',
-      declaration: true,
-      declarationDir: 'dist/umd',
-    }),
+    typescript({ useTsconfigDeclarationDir: true }),
   ],
 };
-
-const esmConfig = {
-  input: 'src/index.ts',
-  output: {
-    dir: 'dist/es2015',
-    format: 'esm',
-    sourcemap: true,
-  },
-  external: ['aurelia-bootstrapper'],
-  plugins: [
-    resolve(),
-    typescript({
-      rootDir: 'src',
-      declaration: true,
-      declarationDir: 'dist/es2015',
-    }),
-  ],
-};
-
-export default [umdConfig, esmConfig];

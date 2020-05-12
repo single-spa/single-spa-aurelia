@@ -1,5 +1,5 @@
-import { bootstrap } from 'aurelia-bootstrapper';
+import { SingleSpaAureliaOptions } from './types';
 
-export default function singleSpaAurelia() {
-  bootstrap(() => {});
+export default function singleSpaAurelia(options: SingleSpaAureliaOptions) {
+  options.bootstrap(() => {});
 }
