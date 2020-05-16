@@ -3,11 +3,11 @@
     "target": "ES5",
     "module": "ESNext",
     "moduleResolution": "node",
-    "outDir": "dist/lib",
     "declaration": true,
     "declarationDir": "dist/types",
     "sourceMap": true,
     "strict": true,
+    "esModuleInterop": true,
     "suppressImplicitAnyIndexErrors": true
   },
   "include": [
