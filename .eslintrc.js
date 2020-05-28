@@ -11,4 +11,7 @@ module.exports = {
     node: true,
     browser: true,
   },
+  rules: {
+    '@typescript-eslint/no-non-null-assertion': 0,
+  },
 };
