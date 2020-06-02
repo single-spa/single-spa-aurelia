@@ -24,6 +24,7 @@
     "@types/jest": "^25.2.2",
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
+    "aurelia": "dev",
     "eslint": "^7.0.0",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
@@ -32,6 +33,7 @@
     "rollup": "^2.9.0",
     "rollup-plugin-terser": "^5.3.0",
     "rollup-plugin-typescript2": "^0.27.0",
+    "single-spa": "^5.5.1",
     "ts-jest": "^26.0.0",
     "tslib": "^1.11.2",
     "typescript": "^3.8.3"
