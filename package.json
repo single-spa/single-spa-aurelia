@@ -15,7 +15,12 @@
     "build": "rollup -c rollup.config.js",
     "format": "prettier './**/*' --write",
     "lint": "eslint .",
-    "test:ci": "jest --runInBand"
+    "test:ci": "jest --runInBand",
+    "// - E2E": "E2E testing",
+    "cy:open": "cypress open --config integrationFolder=cypress/integration",
+    "cy:run": "cypress run --config integrationFolder=cypress/integration",
+    "cy:run:chrome": "yarn cy:run --browser chrome",
+    "cy:run:chromium": "yarn cy:run --browser chromium"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
@@ -25,6 +30,7 @@
     "@typescript-eslint/eslint-plugin": "^2.33.0",
     "@typescript-eslint/parser": "^2.33.0",
     "aurelia": "dev",
+    "cypress": "^4.7.0",
     "eslint": "^7.0.0",
     "husky": "^4.2.5",
     "jest": "^26.0.1",
