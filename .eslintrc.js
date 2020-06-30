@@ -15,4 +15,5 @@ module.exports = {
     '@typescript-eslint/no-var-requires': 0,
     '@typescript-eslint/no-non-null-assertion': 0,
   },
+  ignorePatterns: ['cypress']
 };
