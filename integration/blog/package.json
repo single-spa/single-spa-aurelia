@@ -2,27 +2,27 @@
   "name": "blog",
   "description": "An Aurelia 2 blog application.",
   "version": "0.0.0",
-  "dependencies": {
-    "aurelia": "file:../../node_modules/aurelia"
-  },
-  "devDependencies": {
-    "rimraf": "^3.0.2",
-    "webpack": "file:../../node_modules/webpack",
-    "webpack-cli": "file:../../node_modules/webpack-cli",
-    "webpack-dev-server": "file:../../node_modules/webpack-dev-server",
-    "url-loader": "^4.1.0",
-    "file-loader": "^6.0.0",
-    "style-loader": "^1.2.1",
-    "css-loader": "^3.5.3",
-    "@aurelia/webpack-loader": "dev",
-    "ts-loader": "file:../../node_modules/ts-loader",
-    "postcss-loader": "^3.0.0",
-    "autoprefixer": "^9.8.0",
-    "@types/node": "^14.0.4",
-    "typescript": "file:../../node_modules/typescript"
-  },
   "scripts": {
+    "copy:dist": "yarn --cwd ../../ cpy --parents dist ./integration/blog/node_modules/single-spa-aurelia",
+    "copy:package-json": "yarn --cwd ../../ cpy package.json ./integration/blog/node_modules/single-spa-aurelia",
+    "preinstall": "yarn copy:dist && yarn copy:package-json",
     "start": "webpack-dev-server",
     "build": "rimraf dist && webpack --env production"
+  },
+  "dependencies": {
+    "aurelia": "file:../../node_modules/aurelia",
+    "single-spa-aurelia": "file:./node_modules/single-spa-aurelia"
+  },
+  "devDependencies": {
+    "@aurelia/webpack-loader": "file:../../node_modules/@aurelia/webpack-loader",
+    "@types/node": "^14.0.4",
+    "css-loader": "^3.5.3",
+    "rimraf": "^3.0.2",
+    "style-loader": "^1.2.1",
+    "ts-loader": "file:../../node_modules/ts-loader",
+    "typescript": "file:../../node_modules/typescript",
+    "webpack": "file:../../node_modules/webpack",
+    "webpack-cli": "file:../../node_modules/webpack-cli",
+    "webpack-dev-server": "file:../../node_modules/webpack-dev-server"
   }
 }

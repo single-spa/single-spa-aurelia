@@ -2,19 +2,9 @@
   "name": "portal",
   "version": "0.0.0",
   "scripts": {
-    "start": "webpack-dev-server",
-    "prebuild": "rm -rf dist",
-    "build": "webpack -p"
+    "start": "serve -l 8080 -s"
   },
   "dependencies": {
-    "single-spa": "file:../../node_modules/single-spa"
-  },
-  "devDependencies": {
-    "html-webpack-plugin": "^4.3.0",
-    "ts-loader": "^7.0.5",
-    "typescript": "file:../../node_modules/typescript",
-    "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11",
-    "webpack-dev-server": "^3.11.0"
+    "serve": "^11.3.2"
   }
 }

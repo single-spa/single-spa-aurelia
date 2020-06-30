@@ -5,6 +5,10 @@
   "main": "dist/umd/single-spa-aurelia.js",
   "module": "dist/es2015/single-spa-aurelia.js",
   "typings": "dist/types/index.d.ts",
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/single-spa/single-spa-aurelia.git"
@@ -15,26 +19,28 @@
     "build": "rollup -c rollup.config.js",
     "format": "prettier './**/*' --write",
     "lint": "eslint .",
-    "test:ci": "jest --runInBand",
     "// - INTEGRATION INSTALLS": "Install packages for integration apps",
     "install:integration:blog": "yarn --cwd integration/blog install",
     "install:integration:portal": "yarn --cwd integration/portal install",
     "install:integration": "concurrently yarn:install:integration:*",
     "// - INTEGRATION BUILDS": "Build apps that are required for E2E testing #requires yarn install:integration",
     "build:integration:blog": "yarn --cwd integration/blog build",
-    "build:integration:portal": "yarn --cwd integration/portal build",
     "build:integration": "concurrently yarn:build:integration:*",
     "// - APPS": "Serve apps that are required for E2E testing #requires yarn build:integration",
     "start:integration:blog": "serve integration/blog/dist -l 4200 --cors",
-    "start:integration:portal": "serve integration/portal/dist -s -l 8080",
+    "start:integration:portal": "serve integration/portal -s -l 8080",
     "start:integration": "concurrently yarn:start:integration:*",
     "// - E2E": "E2E testing",
     "cy:open": "cypress open --config integrationFolder=cypress/integration",
     "cy:run": "cypress run --config integrationFolder=cypress/integration",
     "cy:run:chrome": "yarn cy:run --browser chrome",
-    "cy:run:chromium": "yarn cy:run --browser chromium"
+    "cy:run:chromium": "yarn cy:run --browser chromium",
+    "// - CI": "CI testing #requires yarn start:integration",
+    "test:ci": "jest --runInBand",
+    "test:ci:integration": "yarn start-test start:integration 8080 cy:run"
   },
   "devDependencies": {
+    "@aurelia/webpack-loader": "dev",
     "@commitlint/cli": "^8.3.5",
     "@commitlint/config-conventional": "^8.3.4",
     "@rollup/plugin-node-resolve": "^7.1.3",
@@ -43,6 +49,7 @@
     "@typescript-eslint/parser": "^2.33.0",
     "aurelia": "dev",
     "concurrently": "^5.2.0",
+    "cpy-cli": "^3.1.1",
     "cypress": "^4.7.0",
     "eslint": "^7.0.0",
     "html-webpack-plugin": "^4.3.0",
