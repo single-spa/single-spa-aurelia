@@ -9,4 +9,5 @@ module.exports = {
   bail: true,
   clearMocks: true,
   resetModules: true,
+  modulePathIgnorePatterns: ['<rootDir>/cypress'],
 };
