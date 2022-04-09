@@ -1,17 +1,36 @@
 import { DomElementGetter, SingleSpaAureliaOptions } from './types';
 
-export function getHost(domElementGetter: DomElementGetter): never | HTMLElement {
-  const host: HTMLElement = domElementGetter();
+export function createContainerAndGetHost<T extends SingleSpaAureliaOptions>(
+  options: T,
+  props: any,
+): HTMLElement {
+  const domElementGetter = chooseDomElementGetter(options, props);
 
-  if (host) {
-    return host;
+  if (!domElementGetter) {
+    throw Error(
+      `Cannot mount angular application '${
+        props.name || props.appName
+      }' without a domElementGetter provided either as an opt or a prop`,
+    );
   }
 
-  throw new Error('single-spa-aurelia: domElementGetter did not return a valid DOM element');
+  const containerElement = getContainerElement(domElementGetter, props);
+  containerElement.innerHTML = options.template;
+  return containerElement.children[0] as HTMLElement;
 }
 
-export function chooseDomElementGetter(
-  options: SingleSpaAureliaOptions,
+function getContainerElement(domElementGetter: DomElementGetter, props: any): never | HTMLElement {
+  const element = domElementGetter(props);
+
+  if (!element) {
+    throw Error('domElementGetter did not return a valid dom element');
+  }
+
+  return element;
+}
+
+function chooseDomElementGetter<T extends SingleSpaAureliaOptions>(
+  opts: T,
   props: any,
 ): DomElementGetter {
   props = props?.customProps ?? props;
@@ -20,16 +39,15 @@ export function chooseDomElementGetter(
     return () => props.domElement;
   } else if (props.domElementGetter) {
     return props.domElementGetter;
-  } else if (options.domElementGetter) {
-    return options.domElementGetter;
+  } else if (opts.domElementGetter) {
+    return opts.domElementGetter;
   } else {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     return defaultDomElementGetter(props.name);
   }
 }
 
 function defaultDomElementGetter(name: string): DomElementGetter {
-  return function getDefaultDomElement(): HTMLElement {
+  return function getDefaultDomElement() {
     const id = `single-spa-application:${name}`;
     let domElement: HTMLElement | null = document.getElementById(id);
 

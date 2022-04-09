@@ -1,63 +1,44 @@
 import { LifeCycles } from 'single-spa';
 
-import { chooseDomElementGetter, getHost } from './dom';
+import { createContainerAndGetHost } from './dom';
 import { SingleSpaAureliaOptions, BootstrappedSingleSpaAureliaOptions } from './types';
 
 const defaultOptions: BootstrappedSingleSpaAureliaOptions = {
+  // Required options that will be set by the library consumer.
   component: null,
   aurelia: null!,
-  Aurelia: null!,
-  JitHtmlBrowserConfiguration: null!,
-  domElementGetter: undefined,
+  getAurelia: null!,
+  template: null!,
+  // Optional options.
+  domElementGetter: undefined, // only optional if you provide a domElementGetter as a custom prop
 };
 
 function bootstrap(): Promise<void> {
   return Promise.resolve();
 }
 
-function mount(options: BootstrappedSingleSpaAureliaOptions, props: any): Promise<unknown> {
-  const domElementGetter = chooseDomElementGetter(options, props);
+function mount(options: BootstrappedSingleSpaAureliaOptions, props: any): Promise<void> {
+  const host = createContainerAndGetHost(options, props);
 
-  if (typeof domElementGetter !== 'function') {
-    throw new Error(`
-      single-spa-aurelia: Cannot mount Aurelia application '${
-        props.name || props.appName
-      }' without a domElementGetter provided either as an option or prop
-    `);
-  }
-
-  const host = getHost(domElementGetter);
-
-  const aurelia = new options.Aurelia(options.container).register(
-    options.JitHtmlBrowserConfiguration,
-  );
-
+  const aurelia = options.getAurelia(props);
   options.aurelia = aurelia;
 
-  return aurelia
-    .app({
-      host,
-      component: options.component,
-    })
-    .start()
-    .wait()
-    .then(() => {
-      // That passes `props` binding to the root component in case
-      // it has a `@bindable props` property.
-      (aurelia.root.viewModel as { props: unknown }).props = props;
-    });
+  return Promise.resolve(
+    aurelia
+      .app({
+        host,
+        component: options.component,
+      })
+      .start(),
+  );
 }
 
-function unmount(options: BootstrappedSingleSpaAureliaOptions): Promise<void> {
-  return options
-    .aurelia!.stop()
-    .wait()
-    .then(() => {
-      options.aurelia = null;
-    });
+async function unmount(options: BootstrappedSingleSpaAureliaOptions): Promise<void> {
+  await options.aurelia?.stop(true);
+  options.aurelia = null;
 }
 
-export default function singleSpaAurelia(userOptions: SingleSpaAureliaOptions): LifeCycles {
+export function singleSpaAurelia(userOptions: SingleSpaAureliaOptions): LifeCycles {
   if (typeof userOptions !== 'object') {
     throw Error('single-spa-aurelia requires a configuration object');
   }
@@ -67,14 +48,8 @@ export default function singleSpaAurelia(userOptions: SingleSpaAureliaOptions): 
     ...userOptions,
   };
 
-  if (typeof options.Aurelia !== 'function') {
+  if (typeof options.getAurelia !== 'function') {
     throw new Error('single-spa-aurelia should be passed an options.Aurelia class');
-  }
-
-  if (typeof options.JitHtmlBrowserConfiguration !== 'object') {
-    throw new Error(
-      'single-spa-aurelia should be passed an options.JitHtmlBrowserConfiguration object',
-    );
   }
 
   if (typeof options.component !== 'function') {

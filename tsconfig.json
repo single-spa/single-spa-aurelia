@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ES5",
     "module": "ESNext",
     "moduleResolution": "node",
@@ -8,7 +9,11 @@
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
-    "suppressImplicitAnyIndexErrors": true
+    "experimentalDecorators": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "paths": {
+      "single-spa-aurelia": ["src/index.ts"]
+    }
   },
   "include": [
     "src"

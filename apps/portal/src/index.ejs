@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portal</title>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.min.css"
+    />
+
+    <meta name="importmap-type" content="systemjs-importmap" />
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "navbar": "http://localhost:4300/main.js",
+          "blog": "http://localhost:4200/main.js"
+        }
+      }
+    </script>
+
+    <% if (htmlWebpackPlugin.options.isDevelopment) { %>
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "single-spa": "https://cdnjs.cloudflare.com/ajax/libs/single-spa/5.9.3/system/single-spa.dev.js"
+        }
+      }
+    </script>
+    <% } else { %>
+    <script type="systemjs-importmap">
+      {
+        "imports": {
+          "single-spa": "https://cdnjs.cloudflare.com/ajax/libs/single-spa/5.9.3/system/single-spa.min.js"
+        }
+      }
+    </script>
+    <% } %>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/systemjs/6.12.1/system.min.js"
+      integrity="sha512-hEUZNXwXBrWqdzUGvBheCYyBwT3OfFuc1HwumDzeMDK54TUioKjanhZiylIyREGBF/XXHtRx1q/Z4O1XANG4zg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body></body>
+</html>

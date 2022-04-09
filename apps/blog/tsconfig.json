@@ -1,0 +1,13 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ES2018",
+    "types": [
+      "aurelia"
+    ]
+  },
+  "include": [
+    "src"
+  ]
+}
